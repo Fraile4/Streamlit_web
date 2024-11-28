@@ -125,7 +125,7 @@ def guardar_datos(row, tp, resultado, promesa):
     
     # Guardar el DataFrame actualizado en el archivo CSV
     df.to_csv(CSV_LITTLE_FILE_PATH, index=True)
-    modelo.ejecutar_proceso()
+    #modelo.ejecutar_proceso()
 
 def añadir_incidencia(selected_row, incidencia):
     df = cargar_datos()
