@@ -76,20 +76,60 @@ if 'usuario' in st.session_state:
                 'Reestructura del Crédito': 'Reestructura',
             }
             title = column_titles.get(df.loc[selected_row, 'Original_Oferta_Cobranza'], df.loc[selected_row, 'Original_Oferta_Cobranza'])
-            st.metric(label="Oferta de cobranza", value=title)
+            st.metric(label="Oferta de cobranza recomendada", value=title)
 
 
         
         if st.session_state['puesto'] != 'PaP':
-            tab1, tab2 = st.tabs(["Nivel atraso", "Interacciones"])
+            tab1, tab2 = st.tabs(["Distribución de gestiones", "Distribución en barras"])
 
             with tab1:
-                st.write("Gráfica de datos del cliente")
-                atraso_data = lg.cargar_datosAtraso(selected_row)
-                st.bar_chart(atraso_data)
+                import matplotlib.pyplot as plt
+
+                # Datos para el gráfico de rueda
+                labels = ['Gestión Puerta a Puerta', 'Agencias Especiales', 'Call Center']
+                sizes = [
+                    df['num_gestion_puerta_a_puerta'].sum(),
+                    df['num_agencias_especiales'].sum(),
+                    df['num_call_center'].sum()
+                ]
+
+                # Crear el gráfico de rueda
+                fig, ax = plt.subplots()
+                ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+                ax.axis('equal')  # Para que el gráfico sea un círculo
+
+                # Mostrar el gráfico en Streamlit
+                st.pyplot(fig)
 
             with tab2:
-                st.write("Incidencias seleccionadas")
+                import matplotlib.pyplot as plt
+
+                # Datos para el gráfico de barras
+                labels = ['Gestión Puerta a Puerta', 'Agencias Especiales', 'Call Center']
+                sizes = [
+                    df['num_gestion_puerta_a_puerta'].sum(),
+                    df['num_agencias_especiales'].sum(),
+                    df['num_call_center'].sum()
+                ]
+
+                # Crear el gráfico de barras con colores personalizados
+                fig, ax = plt.subplots()
+                colors = ['#FF5733', '#33FF57', '#3357FF']
+                ax.bar(labels, sizes, color=colors)
+
+                # Añadir etiquetas y título
+                ax.set_ylabel('Número de gestiones')
+                ax.set_title('Distribución de gestiones')
+                ax.set_facecolor('#f0f0f0')  # Fondo del gráfico
+                fig.patch.set_facecolor('#f0f0f0')  # Fondo de la figura
+
+                # Añadir etiquetas de valor encima de las barras
+                for i, v in enumerate(sizes):
+                    ax.text(i, v + 0.5, str(v), ha='center', color='black')
+
+                # Mostrar el gráfico en Streamlit
+                st.pyplot(fig)
 
             col0, col00, col000 = st.columns(3)
             with col00:
