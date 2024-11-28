@@ -1,0 +1,9 @@
+usuario,nombre,password,puesto,index
+admin,admin,admin,admin,0
+Dimex,Dimex,Dimex,PaP,1
+Fraile,Unai,HolaMundo,PaP,1
+Batman,Bruno,batman,CC,2
+Karim,Karim,karim,AE,3
+PaP,Analista Ventas,clave123,PaP,4
+CC,Analista Compras,clave123,CC,5
+Sebas,Sebas,Sebas,PaP,6
